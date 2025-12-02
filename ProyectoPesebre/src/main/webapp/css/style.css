@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap');
+
+/* --- Definición de Variables Temáticas (Navidad Coquette/Contraste) --- */
+:root {
+    --bs-font-sans-serif: 'Inter', sans-serif;
+    --font-coquette: 'Playfair Display', serif; /* Fuente elegante para títulos */
+    --color-oro: #FFD700; /* Dorado Brillante */
+    --color-pino: #004D40; /* Verde Pino Oscuro (Header, Footer, Títulos) */
+    --color-rojo-oscuro: #8B0000; /* Rojo Vino Oscuro (Fondo Secundario) */
+    --color-crema: #F5F5DC; /* Color Beige/Crema Suave (Fondo Principal) */
+    --color-plata: #E0E0E0; /* Gris/Plata para botones de acción y algunos títulos */
+    --color-texto-oscuro: #333333; /* Texto principal oscuro sobre fondo claro */
+}
+
+body { 
+    font-family: var(--bs-font-sans-serif); 
+    background-color: var(--color-crema); 
+} 
+
+/* --- Animaciones y Estilos Globales --- */
+.hero-title {
+    font-family: var(--font-coquette); 
+    font-size: 4.5rem; 
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    color: var(--color-pino); 
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); 
+}
+
+/* Descripción debajo del título */
+.hero-description-text {
+    color: var(--color-texto-oscuro); 
+    font-size: 1.15rem;
+    font-weight: 400;
+}
+
+.btn-rounded-custom {
+    border-radius: 50px !important; 
+    transition: all 0.3s ease; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.btn-rounded-custom:hover {
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* --- Header Estilizado (Sólido Verde Pino) --- */
+.header-moderno {
+    background-color: var(--color-pino) !important; 
+    z-index: 1030;
+    padding-top: 0.75rem; 
+    padding-bottom: 0.75rem;
+}
+.header-moderno .navbar-brand {
+    font-family: var(--font-coquette); 
+    font-size: 2.2rem; 
+    color: white !important; 
+}
+.header-moderno .navbar-brand .logo-img {
+    height: 45px; 
+    width: auto;
+    margin-right: 10px;
+}
+
+.header-moderno .nav-link {
+    color: white !important; 
+}
+.header-moderno .nav-link.active-link {
+    border-bottom: 2px solid var(--color-oro); 
+    color: var(--color-oro) !important;
+}
+.header-moderno .navbar-toggler-icon {
+    filter: invert(1); 
+}
+
+
+/* Estilo para la Sección Hero (Fondo Crema) */
+#inicio {
+    padding-top: 8rem; 
+    padding-bottom: 4rem;
+    background-color: var(--color-crema); 
+    position: relative; 
+    color: var(--color-pino); 
+}
+
+/* Estilos de los títulos de sección para alto contraste */
+.section-title-dark {
+    font-family: var(--font-coquette); 
+    color: var(--color-pino); 
+    font-size: 3rem; 
+    font-weight: 700;
+}
+.section-title-light {
+    font-family: var(--font-coquette); 
+    color: var(--color-plata); 
+    font-size: 3rem; 
+    font-weight: 700;
+}
+
+/* --- ESTILO DE TARJETAS CON IMAGEN SUPERIOR (Verde y Dorado) --- */
+.category-card {
+    border-radius: 1rem !important;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+.card-image-top-container {
+    height: 180px; 
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-pino); 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+.card-image-top {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    opacity: 0.8; 
+}
+.category-card .card-body {
+    background-color: white; 
+}
+.category-card .card-title {
+    font-family: var(--font-coquette); 
+    color: var(--color-pino); 
+    font-weight: 700;
+    font-size: 1.6rem; 
+}
+.category-card .card-text {
+    color: var(--color-texto-oscuro) !important; 
+}
+
+/* Botón Plata (Acción en la tarjeta) */
+.btn-plata {
+    background-color: var(--color-plata) !important;
+    color: var(--color-pino) !important; 
+    border: 1px solid var(--color-pino);
+    font-weight: bold;
+}
+.btn-plata:hover {
+    background-color: #C0C0C0 !important;
+}
+
+/* --- Colores Temáticos Directos --- */
+.color-oro { color: var(--color-oro); }
+.bg-color-pino { background-color: var(--color-pino); }
+.bg-color-rojo-oscuro { background-color: var(--color-rojo-oscuro); }
+.bg-color-crema { background-color: var(--color-crema); }
+
+/* Estilo del botón de login/registro (Rojo) */
+.btn-register {
+    background-color: var(--color-rojo-oscuro) !important;
+    color: white !important;
+    border: none;
+}
+.btn-register:hover {
+    background-color: #A31F1F !important; 
+}
+
+/* --- ESTILOS DEL ROMPECABEZAS --- */
+#game-container {
+    background-color: white;
+    border-radius: 1rem !important;
+    border-color: var(--color-pino) !important;
+}
+#puzzleCanvas {
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+/* --- ANIMACIÓN DE NEVADA (FIX: Vuelve a DIVs Circulares Simples) --- */
+#snow-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10; 
+    overflow: hidden; 
+}
+
+.snowflake {
+    /* FIX: Volvemos a las propiedades de un copo circular (div) */
+    background-color: #B0E0E6; /* Azul claro sobre crema para contraste */
+    border-radius: 50%;
+    
+    animation: fall linear infinite;
+    position: absolute;
+    /* Las propiedades de tamaño las maneja JS */
+}
+
+@keyframes fall {
+    0% { transform: translate3d(var(--x, 0), -10%, 0); opacity: 1; } 
+    100% { transform: translate3d(var(--x, 0), 110vh, 0); opacity: 0.5; } 
+}
