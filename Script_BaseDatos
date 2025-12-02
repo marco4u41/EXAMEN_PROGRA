@@ -1,0 +1,97 @@
+-- NOTA: Este script asume que la base de datos 'DB_Pesebre' ya fue creada.
+-- Si necesitas crearla, descomenta y ejecuta la línea a continuación:
+/*
+CREATE DATABASE DB_Pesebre
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'es_ES.UTF-8'
+    LC_CTYPE = 'es_ES.UTF-8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+*/
+
+-- CONECTARSE A LA BASE DE DATOS ANTES DE CONTINUAR
+-- \c DB_Pesebre; 
+-- ------------------------------------------------------------------
+
+
+-- 1. TABLA DE USUARIOS
+-- Almacena la información de login y los perfiles (Administrador/Estudiante).
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL, -- Almacena el hash de la clave
+    
+    -- Los roles que pueden ser: 'administrador', 'estudiante'
+    rol VARCHAR(20) NOT NULL CHECK (rol IN ('administrador', 'estudiante')), 
+    
+    -- El estado de bloqueo: 'activo', 'bloqueado'
+    estado VARCHAR(20) NOT NULL DEFAULT 'activo' CHECK (estado IN ('activo', 'bloqueado')),
+    
+    fecha_registro TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- 2. TABLA DE BITÁCORA (LOGS)
+-- Se usa para registrar las acciones clave.
+
+CREATE TABLE IF NOT EXISTS bitacora (
+    id SERIAL PRIMARY KEY,
+    usuario_id INT REFERENCES usuarios(id) ON DELETE SET NULL, -- Quién realizó la acción (o NULL si fue un invitado/sistema)
+    accion VARCHAR(255) NOT NULL, -- Descripción de la acción (ej: 'Login exitoso', 'Usuario 5 bloqueado')
+    fecha TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- 3. TABLA DE CONTENIDO 
+-- (Para las categorías fijas: Historia, Personajes, 3D/RA)
+
+CREATE TABLE IF NOT EXISTS contenido (
+    id SERIAL PRIMARY KEY,
+    categoria VARCHAR(50) NOT NULL CHECK (categoria IN ('Historia', 'Personajes', 'Interactivo')),
+    titulo VARCHAR(100) NOT NULL,
+    cuerpo TEXT, 
+    url_multimedia VARCHAR(255), 
+    fecha_creacion TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- 4. TABLA PARA LA INTERACCIÓN DEL ESTUDIANTE
+-- Registra los envíos de contenido (reflexiones) sin la lógica de aprobación.
+
+CREATE TABLE IF NOT EXISTS estudiante_interaccion (
+    id SERIAL PRIMARY KEY,
+    usuario_id INT NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+    titulo VARCHAR(150) NOT NULL,
+    contenido_estudiante TEXT NOT NULL,
+    fecha_envio TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ------------------------------------------------------------------
+-- 5. INSERCIÓN DE DATOS INICIALES (SEMILLA)
+-- ------------------------------------------------------------------
+
+-- Crear un usuario administrador inicial
+-- Clave simulada: 'admin1234' -> HASHED_admin1234
+INSERT INTO usuarios (nombre, email, password_hash, rol, estado) VALUES
+('Admin General', 'admin@pesebre.com', 'HASHED_admin1234', 'administrador', 'activo')
+ON CONFLICT (email) DO NOTHING;
+
+-- Crear un usuario estudiante inicial
+-- Clave simulada: 'estudiante123' -> HASHED_estudiante123
+INSERT INTO usuarios (nombre, email, password_hash, rol, estado) VALUES
+('Juan Estudiante', 'juan@correo.com', 'HASHED_estudiante123', 'estudiante', 'activo')
+ON CONFLICT (email) DO NOTHING;
+
+-- Insertar contenido de ejemplo (para la tabla 'contenido' principal)
+INSERT INTO contenido (categoria, titulo, cuerpo, url_multimedia) VALUES
+('Historia', 'Profecías del Antiguo Testamento', 'Detalles sobre las profecías que guiaron la Natividad.', 'multimedia/images/profecia_isaias.jpeg'),
+('Personajes', 'Perfiles de la Sagrada Familia', 'Información sobre María, José y el Niño.', 'multimedia/images/virgen_jose.png')
+ON CONFLICT (titulo) DO NOTHING;
+
+-- FINALIZACIÓN
+SELECT 'La configuración de la base de datos DB_Pesebre está completa.' AS Resultado;
